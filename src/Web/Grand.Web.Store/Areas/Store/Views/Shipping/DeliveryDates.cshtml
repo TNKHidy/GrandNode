@@ -1,6 +1,6 @@
-﻿@{
-    //page title
+@{
     ViewBag.Title = Loc["Admin.Configuration.Shipping.DeliveryDates"];
+    Layout = Constants.LayoutStore;
 }
 
 <div class="row">
@@ -12,12 +12,10 @@
                     @Loc["Admin.Configuration.Shipping.DeliveryDates"]
                 </div>
                 <div class="actions btn-group btn-group-devided">
-                    <a href="@Url.Action("CreateDeliveryDate", new { area = Constants.AreaAdmin })" class="btn green">
-                        <i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @Loc["Admin.Common.AddNew"] </span>
+                    <a href="@Url.Action("CreateDeliveryDate", "Shipping", new { area = Constants.AreaStore })" class="btn green">
+                        <i class="fa fa-plus"></i><span class="d-none d-sm-inline"> @Loc["Admin.Common.AddNew"]</span>
                     </a>
-                    <vc:admin-widget widget-zone="delivery_date_buttons" additional-data="null"/>
                 </div>
-
             </div>
             <div class="x_content form">
                 <div class="form-horizontal">
@@ -32,13 +30,13 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function () {
         $("#deliverydate-grid").kendoGrid({
             dataSource: {
                 transport: {
                     read: {
-                        url: "@Html.Raw(Url.Action("DeliveryDates", "Shipping", new { area = Constants.AreaAdmin }))",
+                        url: "@Html.Raw(Url.Action("DeliveryDatesListData", "Shipping", new { area = Constants.AreaStore }))",
                         type: "POST",
                         dataType: "json",
                         data: addAntiForgeryToken
@@ -49,14 +47,13 @@
                     total: "Total",
                     errors: "Errors"
                 },
-                error: function(e) {
+                error: function (e) {
                     display_kendoui_grid_error(e);
-                    // Cancel the changes
                     this.cancelChanges();
                 },
-                serverPaging: true,
-                serverFiltering: true,
-                serverSorting: true
+                serverPaging: false,
+                serverFiltering: false,
+                serverSorting: false
             },
             pageable: {
                 refresh: true,
@@ -64,25 +61,19 @@
                 previousNext: false,
                 info: false
             },
-            editable: {
-                confirmation: false,
-                mode: "inline"
-            },
             scrollable: false,
-            columns: [{
-                field: "Name",
-                title: "@Loc["Admin.Configuration.Shipping.DeliveryDates.Fields.Name"]",
-                width: 300,
-                template: '<a class="k-link" href="EditDeliveryDate/#=Id#">#=kendo.htmlEncode(Name)#</a>',
-            }, {
-                field: "StoreName",
-                title: "@Loc["Admin.Configuration.Shipping.DeliveryDates.Fields.Store"]",
-                width: 200
-            }, {
-                field: "DisplayOrder",
-                title: "@Loc["Admin.Configuration.Shipping.DeliveryDates.Fields.DisplayOrder"]",
-                width: 100
-            }]
+            columns: [
+                {
+                    field: "Name",
+                    title: "@Loc["Admin.Configuration.Shipping.DeliveryDates.Fields.Name"]",
+                    template: '<a class="k-link" href="@Url.Action("EditDeliveryDate", "Shipping", new { area = Constants.AreaStore })/#=Id#">#=kendo.htmlEncode(Name)#</a>'
+                },
+                {
+                    field: "DisplayOrder",
+                    title: "@Loc["Admin.Configuration.Shipping.DeliveryDates.Fields.DisplayOrder"]",
+                    width: 120
+                }
+            ]
         });
     });
 </script>

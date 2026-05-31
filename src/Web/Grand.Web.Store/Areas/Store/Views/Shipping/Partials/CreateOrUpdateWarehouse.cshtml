@@ -1,9 +1,9 @@
-﻿@model WarehouseModel
+@model WarehouseModel
+
 <div asp-validation-summary="All"></div>
 <input asp-for="Id" type="hidden"/>
-<input id="active-menu-item" type="hidden" value="/@Constants.AreaAdmin/Shipping/Warehouses"/>
+
 <div class="form-horizontal">
-    <vc:admin-widget widget-zone="warehouse_details_top" additional-data="Model"/>
     <div class="form-body">
         <div class="form-group">
             <admin-label asp-for="Code"/>
@@ -50,13 +50,5 @@
                 <span asp-validation-for="DisplayOrder"></span>
             </div>
         </div>
-        <div class="form-group">
-            <admin-label asp-for="StoreId"/>
-            <div class="col-md-9 col-sm-9">
-                <admin-select asp-for="StoreId" asp-items="Model.AvailableStores"/>
-                <span asp-validation-for="StoreId"></span>
-            </div>
-        </div>
     </div>
-    <vc:admin-widget widget-zone="warehouse_details_bottom" additional-data="Model"/>
 </div>
