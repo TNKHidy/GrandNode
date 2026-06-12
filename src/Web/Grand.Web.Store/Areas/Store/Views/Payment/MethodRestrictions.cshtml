@@ -1,10 +1,10 @@
-﻿@model PaymentMethodRestrictionModel
+@model PaymentMethodRestrictionModel
 
 @{
-    //page title
     ViewBag.Title = Loc["Admin.Configuration.Payment.MethodRestrictions"];
+    Layout = Constants.LayoutStore;
 }
-<form asp-area="@Constants.AreaAdmin" asp-controller="Payment" asp-action="MethodRestrictions" method="post">
+<form asp-area="@Constants.AreaStore" asp-controller="Payment" asp-action="MethodRestrictions" method="post">
 
     <div class="row">
         <div class="col-md-12">
@@ -20,15 +20,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="x_content">
-                    <div class="form-horizontal">
-                        <div class="form-body">
-                            @await Component.InvokeAsync("StoreScope")
-                        </div>
-                    </div>
-                </div>
                 <div class="x_content form">
-                    <vc:admin-widget widget-zone="payment_method_restrictions_top" additional-data="Model"/>
                     <admin-tabstrip name="paymentrestriction-edit">
                         <items>
                             <tabstrip-item text="@Loc["Admin.Configuration.Payment.MethodRestrictions.Country"]" tab-index="0">
@@ -45,10 +37,8 @@
                                     </div>
                                 </content>
                             </tabstrip-item>
-                            <vc:admin-widget widget-zone="payment_method_restrictions_details_tabs" additional-data="Model"/>
                         </items>
                     </admin-tabstrip>
-                    <vc:admin-widget widget-zone="payment_method_restrictions_bottom" additional-data="Model"/>
                 </div>
             </div>
         </div>
