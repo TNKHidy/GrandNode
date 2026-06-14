@@ -190,6 +190,7 @@ public class CustomerViewModelService : ICustomerViewModelService
                 model.Username = customer.Username;
                 model.VendorId = customer.VendorId;
                 model.StaffStoreId = customer.StaffStoreId;
+                model.StoreId = customer.StoreId;
                 model.SeId = customer.SeId;
                 model.AdminComment = customer.AdminComment;
                 model.IsTaxExempt = customer.IsTaxExempt;
@@ -264,6 +265,10 @@ public class CustomerViewModelService : ICustomerViewModelService
         else
         {
             model.SeId = _contextAccessor.WorkContext.CurrentCustomer.SeId;
+
+            //a store manager can only create customers for his own store - preset it
+            if (await _groupService.IsStoreManager(_contextAccessor.WorkContext.CurrentCustomer))
+                model.StoreId = _contextAccessor.StoreContext.CurrentStore.Id;
         }
 
         model.UsernamesEnabled = _customerSettings.UsernamesEnabled;
@@ -385,7 +390,7 @@ public class CustomerViewModelService : ICustomerViewModelService
             IsTaxExempt = model.IsTaxExempt,
             FreeShipping = model.FreeShipping,
             Active = model.Active,
-            StoreId = _contextAccessor.StoreContext.CurrentStore.Id,
+            StoreId = model.StoreId,
             OwnerId = ownerId,
             Attributes = model.Attributes,
             LastActivityDateUtc = DateTime.UtcNow
@@ -544,6 +549,9 @@ public class CustomerViewModelService : ICustomerViewModelService
 
         //staff store
         customer.StaffStoreId = model.StaffStoreId;
+
+        //store
+        customer.StoreId = model.StoreId;
 
         //sales employee
         customer.SeId = model.SeId;
