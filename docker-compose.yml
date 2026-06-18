@@ -1,0 +1,23 @@
+services:
+
+  grandnode:
+    build:
+      context: .
+
+    ports:
+      - "8081:80"
+
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:7
+
+    ports:
+      - "27017:27017"
+
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
